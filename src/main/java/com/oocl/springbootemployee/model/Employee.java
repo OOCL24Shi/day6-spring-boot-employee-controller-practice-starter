@@ -21,20 +21,25 @@ public class Employee {
         return id;
     }
 
-    public String getName() {
-        return name;
-    }
-
     @Override
     public boolean equals(Object o) {
+        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Employee employee = (Employee) o;
-        return Objects.equals(id, employee.id);
+        return id == employee.id &&
+                age == employee.age &&
+                salary == employee.salary &&
+                Objects.equals(name, employee.name) &&
+                gender == employee.gender;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hash(id, name, age, gender, salary);
+    }
+
+    public String getName() {
+        return name;
     }
 
     public int getAge() {
@@ -48,4 +53,9 @@ public class Employee {
     public double getSalary() {
         return salary;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
 }

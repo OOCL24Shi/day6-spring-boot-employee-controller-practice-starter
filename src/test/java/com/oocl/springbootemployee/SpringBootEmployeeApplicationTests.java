@@ -54,4 +54,22 @@ class SpringBootEmployeeApplicationTests {
 		List<Employee> responseBodyObj = json.parse(responseBody).getObject();
 		assertThat(employees).isEqualTo(responseBodyObj);
 	}
+	//GET /employees/1 # get a specific employee by ID
+	@Test
+	void should_get_a_specific_employee_when_get_given_get_a_id() throws Exception {
+	    //Given
+		Employee expectedEmployee = employeeRepository.getAll().get(0);
+
+
+	    //When
+		client.perform(MockMvcRequestBuilders.get("/employees/"+0))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.id").value(expectedEmployee.getId()))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.name").value(expectedEmployee.getName()))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.age").value(expectedEmployee.getAge()))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(expectedEmployee.getSalary()));
+
+	    //Then
+
+	}
 }

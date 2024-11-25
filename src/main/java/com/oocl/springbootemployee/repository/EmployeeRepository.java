@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.spi.ToolProvider.findFirst;
+
 @Repository
 public class EmployeeRepository {
     private final List<Employee> employees = new ArrayList<>();
@@ -23,6 +25,16 @@ public class EmployeeRepository {
     }
 
     public void save(Employee employee) {
+        employee.setId(employees.size());
         employees.add(employee);
+
+    }
+
+    public Employee getEmployeeById(int id) {
+
+        return (Employee) employees.stream()
+                .filter(employee -> employee.getId()==id)
+                .findFirst()
+                .orElse(null);
     }
 }
