@@ -61,4 +61,8 @@ public class EmployeeRepository {
     public void deleteEmployee(Integer id) {
         employees.removeIf(employee -> employee.getId() == id);
     }
+
+    public List<Employee> getEmployeesByPage(Integer page, Integer pageSize) {
+        return null;
+    }
 }

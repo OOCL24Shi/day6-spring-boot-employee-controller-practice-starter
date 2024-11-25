@@ -160,4 +160,26 @@ class SpringBootEmployeeApplicationTests {
         // Then
         assertThat(employeeRepository.getEmployeeById(employeeToDelete.getId())).isNull();
     }
+    //GET /employees?page=1&size=5 # Page query, page equals 1, size equals 5
+    @Test
+    void should_get_employees_with_pagination_when_get_given_page_and_size() throws Exception {
+        // Given
+        int page = 1;
+        int size = 5;
+        List<Employee> expectedEmployees = employeeRepository.getAll().stream()
+                .skip((page - 1) * size)
+                .limit(size)
+                .collect(Collectors.toList());
+
+        // When
+        String responseBody = client.perform(MockMvcRequestBuilders.get("/employees")
+                        .param("page", String.valueOf(page))
+                        .param("size", String.valueOf(size)))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        // Then
+        List<Employee> responseBodyObj = json.parse(responseBody).getObject();
+        assertThat(responseBodyObj).isEqualTo(expectedEmployees);
+    }
 }
