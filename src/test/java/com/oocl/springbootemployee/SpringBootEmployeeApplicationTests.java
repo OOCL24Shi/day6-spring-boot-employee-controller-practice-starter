@@ -4,12 +4,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.oocl.springbootemployee.model.Employee;
 import com.oocl.springbootemployee.model.Gender;
 import com.oocl.springbootemployee.repository.EmployeeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -68,6 +70,26 @@ class SpringBootEmployeeApplicationTests {
 				.andExpect(MockMvcResultMatchers.jsonPath("$.name").value(expectedEmployee.getName()))
 				.andExpect(MockMvcResultMatchers.jsonPath("$.age").value(expectedEmployee.getAge()))
 				.andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(expectedEmployee.getSalary()));
+
+	    //Then
+	}
+	//GET /employees?gender=male # get all male employees
+	@Test
+	void should_get_all_male_employees_when_get_given_gender_is_male() throws Exception {
+	    //Given
+		List <Employee> maleEmployees = employeeRepository.getAll().stream()
+				.filter(employee ->employee.getGender() == Gender.MALE)
+				.collect(Collectors.toList());
+
+	    //When
+		String responseBody = client.perform(MockMvcRequestBuilders.get("/employees")
+						.param("gender","MALE"))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andReturn().getResponse().getContentAsString();
+		//Then
+		List<Employee> responseBodyObj = json.parse(responseBody).getObject();
+		assertThat(maleEmployees).isEqualTo(responseBodyObj);
+
 
 	    //Then
 

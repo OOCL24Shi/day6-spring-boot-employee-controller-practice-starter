@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.spi.ToolProvider.findFirst;
 
@@ -36,5 +37,11 @@ public class EmployeeRepository {
                 .filter(employee -> employee.getId()==id)
                 .findFirst()
                 .orElse(null);
+    }
+
+    public List<Employee> getEmployeeByGender(Gender gender) {
+        return employees.stream()
+                .filter(employee -> employee.getGender() == gender)
+                .collect(Collectors.toList());
     }
 }
