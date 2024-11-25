@@ -147,4 +147,17 @@ class SpringBootEmployeeApplicationTests {
         assertThat(employee.getSalary()).isEqualTo(updatedEmployeeObject.getSalary());
     }
 
+    //DELETE /employees/1 # delete an employee response status 204 no content
+    @Test
+    void should_delete_an_employee_when_delete_given_id() throws Exception {
+        // Given
+        Employee employeeToDelete = employeeRepository.getEmployeeById(1);
+
+        // When
+        client.perform(MockMvcRequestBuilders.delete("/employees/" + employeeToDelete.getId()))
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
+
+        // Then
+        assertThat(employeeRepository.getEmployeeById(employeeToDelete.getId())).isNull();
+    }
 }
