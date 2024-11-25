@@ -58,4 +58,11 @@ public class Employee {
         this.id = id;
     }
 
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
+    }
 }

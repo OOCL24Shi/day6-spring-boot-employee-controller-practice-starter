@@ -34,7 +34,7 @@ public class EmployeeRepository {
     public Employee getEmployeeById(int id) {
 
         return (Employee) employees.stream()
-                .filter(employee -> employee.getId()==id)
+                .filter(employee -> employee.getId() == id)
                 .findFirst()
                 .orElse(null);
     }
@@ -44,4 +44,18 @@ public class EmployeeRepository {
                 .filter(employee -> employee.getGender() == gender)
                 .collect(Collectors.toList());
     }
+
+    public Employee updateEmployee(Integer id, Employee employee) {
+        Employee targetEmployee = employees.stream()
+                .filter(filteredEmployee -> filteredEmployee.getId() == id)
+                .findFirst()
+                .orElse(null);
+        if (targetEmployee != null) {
+            targetEmployee.setAge(employee.getAge());
+            targetEmployee.setSalary(employee.getSalary());
+            return targetEmployee;
+        }
+        return null;
+    }
+
 }
