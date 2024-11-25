@@ -25,10 +25,10 @@ public class EmployeeRepository {
         return employees;
     }
 
-    public void save(Employee employee) {
+    public Employee save(Employee employee) {
         employee.setId(employees.size());
         employees.add(employee);
-
+        return employee;
     }
 
     public Employee getEmployeeById(int id) {

@@ -17,6 +17,7 @@ import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.json.JacksonTester;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -62,7 +63,6 @@ class SpringBootEmployeeApplicationTests {
 	    //Given
 		Employee expectedEmployee = employeeRepository.getAll().get(0);
 
-
 	    //When
 		client.perform(MockMvcRequestBuilders.get("/employees/"+0))
 				.andExpect(MockMvcResultMatchers.status().isOk())
@@ -92,6 +92,29 @@ class SpringBootEmployeeApplicationTests {
 
 
 	    //Then
+
+	}
+	//POST /employees # create employee response status 201 created
+	@Test
+	void should_create_employee_when_post_given_employee() throws Exception {
+		//Given
+		String givenEmployee = " {\n" +
+				"        \"name\": \"Lily\",\n" +
+				"        \"age\": 20,\n" +
+				"        \"gender\": \"FEMALE\",\n" +
+				"        \"salary\": 8000.0\n" +
+				"    }";
+		Employee givenEmployeeObject = jsonObject.parseObject(givenEmployee);
+		//When
+		client.perform(MockMvcRequestBuilders.post("/employees")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(givenEmployee))
+				.andExpect(MockMvcResultMatchers.status().isCreated())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.name").value(givenEmployeeObject.getName()))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.age").value(givenEmployeeObject.getAge()))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.gender").value(givenEmployeeObject.getGender().name()))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(givenEmployeeObject.getSalary()));
+		//Then
 
 	}
 }
