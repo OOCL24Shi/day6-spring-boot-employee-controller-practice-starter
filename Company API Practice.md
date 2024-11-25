@@ -13,15 +13,15 @@
     ```Json
     [
       {
-        "id": "string",
+        "registrationNumber":123,
         "name": "string",
         "employees": [
-          { "id": "string", "name": "string", "position": "string" },
-          { "id": "string", "name": "string", "position": "string" }
+          { "employeeID":123, "name": "string", "position": "string" },
+          { "registrationNumber":123, "name": "string", "position": "string" }
         ]
       },
       {
-        "id": "string",
+        "registrationNumber":456,
         "name": "string",
         "employees": []
       }
@@ -44,11 +44,11 @@
 
     ```json
     {
-      "id": "string",
+      "registrationNumber":123,
       "name": "string",
       "employees": [
-        { "id": "string", "name": "string", "position": "string" },
-        { "id": "string", "name": "string", "position": "string" }
+        { "employeeID":123, "name": "string", "position": "string" },
+        { "employeeID":456, "name": "string", "position": "string" }
       ]
     }
     ```
@@ -69,8 +69,8 @@
 
     ```json
     [
-      { "id": "string", "name": "string", "position": "string" },
-      { "id": "string", "name": "string", "position": "string" }
+      { "employeeID":123, "name": "string", "position": "string" },
+      { "employeeID":456, "name": "string", "position": "string" }
     ]
     ```
 
@@ -94,15 +94,15 @@
       "size": 5,
       "content": [
         {
-          "id": "string",
+          "registrationNumber":123,
           "name": "string",
           "employees": [
-            { "id": "string", "name": "string", "position": "string" },
-            { "id": "string", "name": "string", "position": "string" }
+            { "employeeID":123, "name": "string", "position": "string" },
+            { "employeeID":456, "name": "string", "position": "string" }
           ]
         },
         {
-          "id": "string",
+          "registrationNumber":456,
           "name": "string",
           "employees": []
         }
@@ -137,7 +137,7 @@
 
     ```json
     {
-      "id": "string",
+      "employeeID":123,
       "name": "string",
       "position": "string",
       "companyId": "string"
@@ -160,7 +160,7 @@
   {
     "name": "string",
     "employees": [
-      { "id": "string", "name": "string", "position": "string" }
+      { "employeeID":123, "name": "string", "position": "string" }
     ]
   }
   ```
@@ -173,10 +173,10 @@
 
     ```json
     {
-      "id": "string",
+      "registrationNumber":123,
       "name": "string",
       "employees": [
-        { "id": "string", "name": "string", "position": "string" }
+        { "employeeID":123, "name": "string", "position": "string" }
       ]
     }
     ```
