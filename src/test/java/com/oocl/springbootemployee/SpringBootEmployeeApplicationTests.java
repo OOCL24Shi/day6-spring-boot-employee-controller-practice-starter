@@ -101,24 +101,28 @@ class SpringBootEmployeeApplicationTests {
     @Test
     void should_create_employee_when_post_given_employee() throws Exception {
         //Given
-        String givenEmployee = " {\n" +
-                "        \"name\": \"Lily\",\n" +
-                "        \"age\": 20,\n" +
-                "        \"gender\": \"FEMALE\",\n" +
-                "        \"salary\": 8000.0\n" +
-                "    }";
+        String givenEmployee = "{\n" +
+                "\n" +
+                "\"id\":3,\n" +
+                "\n" +
+                "\"name\":\"Lily\",\n" +
+                "\n" +
+                "\"age\":20,\n" +
+                "\n" +
+                "\"gender\":\"FEMALE\",\n" +
+                "\n" +
+                "\"salary\":8000.0\n" +
+                "\n" +
+                "}";
         Employee givenEmployeeObject = jsonObject.parseObject(givenEmployee);
         //When
-        client.perform(MockMvcRequestBuilders.post("/employees")
+        String insertedEmployee = client.perform(MockMvcRequestBuilders.post("/employees")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(givenEmployee))
-                .andExpect(MockMvcResultMatchers.status().isCreated())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(givenEmployeeObject.getName()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(givenEmployeeObject.getAge()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value(givenEmployeeObject.getGender().name()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(givenEmployeeObject.getSalary()));
+            .andExpect(MockMvcResultMatchers.status().isCreated())
+                    .andReturn().getResponse().getContentAsString();
         //Then
-
+        assertThat(jsonObject.parse(insertedEmployee)).usingRecursiveComparison().isEqualTo(givenEmployeeObject);
     }
 
     //PUT /employees/1 # update an employee age and salary
