@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import static java.util.spi.ToolProvider.findFirst;
 
+
 @Repository
 public class EmployeeRepository {
     private final List<Employee> employees = new ArrayList<>();
@@ -63,6 +64,9 @@ public class EmployeeRepository {
     }
 
     public List<Employee> getEmployeesByPage(Integer page, Integer pageSize) {
-        return null;
+        return employees.stream()
+                .skip((page - 1) * pageSize)
+                .limit(pageSize)
+                .collect(Collectors.toList());
     }
 }

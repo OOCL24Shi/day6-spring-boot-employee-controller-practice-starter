@@ -166,10 +166,7 @@ class SpringBootEmployeeApplicationTests {
         // Given
         int page = 1;
         int size = 5;
-        List<Employee> expectedEmployees = employeeRepository.getAll().stream()
-                .skip((page - 1) * size)
-                .limit(size)
-                .collect(Collectors.toList());
+        List<Employee> expectedEmployees = employeeRepository.getEmployeesByPage(page,size);
 
         // When
         String responseBody = client.perform(MockMvcRequestBuilders.get("/employees")
