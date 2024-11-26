@@ -55,7 +55,7 @@ class SpringBootEmployeeApplicationTests {
                 .andReturn().getResponse().getContentAsString();
         // then
         List<Employee> responseBodyObj = json.parse(responseBody).getObject();
-        assertThat(employees).isEqualTo(responseBodyObj);
+        assertThat(responseBodyObj).usingRecursiveComparison().isEqualTo(employees);
     }
 
     //GET /employees/1 # get a specific employee by ID
@@ -90,7 +90,7 @@ class SpringBootEmployeeApplicationTests {
                 .andReturn().getResponse().getContentAsString();
         //Then
         List<Employee> responseBodyObj = json.parse(responseBody).getObject();
-        assertThat(maleEmployees).isEqualTo(responseBodyObj);
+        assertThat(responseBodyObj).usingRecursiveComparison().isEqualTo(maleEmployees);
 
 
         //Then
@@ -130,25 +130,21 @@ class SpringBootEmployeeApplicationTests {
     void should_update_employee_when_put_given_ID() throws Exception {
         //Given
         String updatedEmployee = " {\n" +
-                "        \"name\": \"Tom\",\n" +
-                "        \"age\": 24,\n" +
-                "        \"gender\": \"MALE\",\n" +
-                "        \"salary\": 7500.0\n" +
-                "    }";
-        Employee updatedEmployeeObject = jsonObject.parseObject(updatedEmployee);
-
+                "\n" +
+                "\"age\":29,\n" +
+                "\n" +
+                "\"salary\":4000.0\n" +
+                "\n" +
+                "}";
+        Employee updatedEmployee1 = new Employee(0, "Lily", 29, Gender.FEMALE, 4000);
         //When
-        client.perform(MockMvcRequestBuilders.put("/employees/1")
+       String responseBody = client.perform(MockMvcRequestBuilders.put("/employees/0")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(updatedEmployee))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(updatedEmployeeObject.getAge()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(updatedEmployeeObject.getSalary()));
-
+                .andReturn().getResponse().getContentAsString();
         //Then
-        Employee employee = employeeRepository.getEmployeeById(1);
-        assertThat(employee.getAge()).isEqualTo(updatedEmployeeObject.getAge());
-        assertThat(employee.getSalary()).isEqualTo(updatedEmployeeObject.getSalary());
+        assertThat(jsonObject.parse(responseBody).getObject()).usingRecursiveComparison().isEqualTo(updatedEmployee1);
     }
 
     //DELETE /employees/1 # delete an employee response status 204 no content
@@ -181,6 +177,6 @@ class SpringBootEmployeeApplicationTests {
 
         // Then
         List<Employee> responseBodyObj = json.parse(responseBody).getObject();
-        assertThat(responseBodyObj).isEqualTo(expectedEmployees);
+        assertThat(responseBodyObj).usingRecursiveComparison().isEqualTo(expectedEmployees);
     }
 }
